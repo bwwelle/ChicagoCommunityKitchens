@@ -1,0 +1,59 @@
+using System;
+using Microsoft.Reporting.WebForms;
+using System.Data;
+using GCFDGlobalsNamespace;
+
+public partial class SFSPWeeklyOrderReport : System.Web.UI.Page
+{
+	private string m_SQL;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string createdMeal;
+        string reportStartDate = Request.QueryString.Get("ReportStartDate");
+        string reportEndDate = Request.QueryString.Get("ReportEndDate");
+        string bagCount = Request.QueryString.Get("BagCount");
+        string sliceCount = Request.QueryString.Get("SliceCount");
+        string loafCount = Request.QueryString.Get("LoafCount");
+        string bunCount = Request.QueryString.Get("BunCount");
+        string reportType = Request.QueryString.Get("ReportType");
+
+        m_SQL = "DECLARE @CreatedMeal varchar(50) EXEC spInsertWeeklyOrderReportInformation " + sliceCount + ", " + loafCount + ", " + bunCount + ", " + bagCount + ", '" + reportStartDate + "', '" + reportEndDate + "', '" + User.Identity.Name + "', @CreatedMeal = @CreatedMeal OUTPUT SELECT @CreatedMeal as 'CreatedMeal'";
+        DataSet dailyCountReportCreation = GCFDGlobals.m_GCFDPlannerDatabaseLibrary.dbSelectDataSet(m_SQL);
+
+        createdMeal = GCFDGlobals.dbGetValue(dailyCountReportCreation.Tables[0].Rows[0], "CreatedMeal");
+
+        if (createdMeal != "-1")
+        {
+            if (reportType == "Excel")
+            {
+                ProcessExcelReport report = new ProcessExcelReport();
+
+                report.ReportID = createdMeal;
+                report.StartDate = reportStartDate;
+                report.EndDate = reportEndDate;
+                report.Name = "SFSPWeeklyOrderReport";
+                report.Response = Response;
+
+                report.RenderReport();
+            }
+            else
+            {
+                ProcessReport report = new ProcessReport();
+
+                report.ReportID = createdMeal;
+                report.StartDate = reportStartDate;
+                report.EndDate = reportEndDate;
+                report.Name = "SFSPWeeklyOrderReport";
+                report.Response = Response;
+
+                report.RenderReport();
+            }            
+        }
+        else
+        {
+            RegisterClientScriptBlock("",
+                      "<script>{ alert('Error creating SFSP Weekly Order Report.');window.close();}</script>");
+        }        
+    }
+}

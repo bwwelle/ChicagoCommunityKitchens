@@ -1,0 +1,71 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body bgcolor="#004D45">
+    <form id="form1"  runat="server">
+    <div class="page">
+        <div class="header">
+        <div class="loginDisplay">
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
+                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> | 
+                        <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Account/ChangePassword.aspx">Change Password</asp:HyperLink> ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+            <div class="title">
+            <asp:Image runat="server" id="i1" enableViewState="false" imageurl="~/Images/cckschedulebanner.jpg" Width="100%" alt="CCK Application Banner" />
+            </div>            
+            <div class="clear hideSkiplink">
+                <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
+                    <Items>
+                        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home"/>
+                        <asp:MenuItem Text="Programs">
+                            <asp:MenuItem NavigateUrl="Programs/Sites.aspx" Text="CCK Sites" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Programs/DeliveryCalendar.aspx" Text="Delivery Calendar" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Programs/SiteRouteOrder.aspx" Text="Site Route Order" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Programs/SiteRouteOrderCold.aspx" Text="Site Route Order - CCK Cold" Selectable = "false"/>
+                             <asp:MenuItem NavigateUrl="Programs/SiteRouteOrderColdN.aspx" Text="Site Route Order - CCK Cold North" Selectable = "false"/>
+                             <asp:MenuItem NavigateUrl="Programs/SiteRouteOrderColdS.aspx" Text="Site Route Order - CCK Cold South" Selectable = "false"/>
+                             <asp:MenuItem NavigateUrl="Programs/MilkOrderingCalculator.aspx" Text="Milk Ordering Calculator" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Programs/cckcoldMilkCalculator.aspx" Text="Milk Ordering Calculator Cold CCK" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Programs/SiteDeliveryCount.aspx" Text="Site Delivery Counts" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Programs/MealDeliveryType.aspx" Text="Meal Delivery Types" Selectable = "false"/>
+                        </asp:MenuItem>
+                        <asp:MenuItem Text="Kitchen">
+                            <asp:MenuItem NavigateUrl="Kitchen/MealCalendar.aspx" Text="Meal Planner" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Kitchen/BreakfastCalendar.aspx" Text="Breakfast Planner" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Kitchen/ColdCalendar.aspx" Text="Cold CCK Planner" Selectable = "true"/>
+                            <asp:MenuItem NavigateUrl="Kitchen/Recipes.aspx" Text="Recipes" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Kitchen/NonFoodItemInventory.aspx" Text="Non-Food Item Inventory" Selectable = "false"/>
+                            <asp:MenuItem NavigateUrl="Kitchen/FoodItemInventory.aspx" Text="Food Item Inventory" Selectable = "false"/>
+                        </asp:MenuItem>
+                        <asp:MenuItem NavigateUrl="~/CCKReports.aspx" Text="Reports" />
+                        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About"/>
+                    </Items>
+                </asp:Menu>
+            </div>
+        </div>
+        <div class="main" style="background-color: #004D45; color: #FFFFFF;">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="footer" style="background-color: #004D45">
+        
+    </div>
+    </form>
+</body>
+</html>
